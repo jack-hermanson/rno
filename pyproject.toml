@@ -1,0 +1,37 @@
+[project]
+name = "rno"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dotenv>=0.9.9",
+    "email-validator>=2.3.0",
+    "flask>=3.1.2",
+    "flask-bcrypt>=1.0.1",
+    "flask-login>=0.6.3",
+    "flask-mail>=0.10.0",
+    "flask-migrate>=4.1.0",
+    "flask-sqlalchemy>=3.1.1",
+    "flask-wtf>=1.2.2",
+    "greenlet>=3.2.4",
+    "gunicorn>=23.0.0",
+    "psycopg2>=2.9.10",
+    "psycopg2-binary>=2.9.10",
+    "pytz>=2025.2",
+    "sqlalchemy>=2.0.43",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.12.12",
+]
+
+[tool.ruff]
+extend-exclude = ["migrations/*"]
+line-length = 120
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["ANN002", "ANN003", "D", "EM101", "ERA001", "S607", "S603", "TD", "TRY003"]
