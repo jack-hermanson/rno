@@ -18,6 +18,8 @@ def index() -> ResponseReturnValue:
                         font-family: sans-serif;
                         color: #aaa;
                         background-color: #222;
+                        padding-left: 10vw;
+                        padding-right: 10vw;
                     }
                     h1 {
                         border-bottom: 1px solid #aaa;
