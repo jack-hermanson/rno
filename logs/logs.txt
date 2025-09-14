@@ -1,3 +1,0 @@
-DEBUG    [2025-09-14 10:32:59]: GET: /  - __init__.py:86 
-DEBUG    [2025-09-14 10:32:59]: we have reached the index - routes.py:11 
-DEBUG    [2025-09-14 10:32:59]: GET: /favicon.ico  - __init__.py:86 
