@@ -77,6 +77,7 @@
                         {{ nav_link(href=url_for('accounts.login'), active=(active_route == "accounts"), icon="fa-user", text="Login") }}
                     {% endif %}
                     {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.NORMAL %}
+                        {{ nav_link(href="#", active=(active_route == "projects"), icon="fa-list-check", text="Projects") }}
                         {{ nav_link(href="#", active=(active_route == "meetings"), icon="fa-people-roof", text="Meetings") }}
                         {{ nav_link(href="#", active=(active_route == "contacts"), icon="fa-address-book", text="Contacts") }}
                         {{ nav_link(href="#", active=(active_route == "board"), icon="fa-users-between-lines", text="Board Members") }}
