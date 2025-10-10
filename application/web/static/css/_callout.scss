@@ -1,0 +1,43 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "colors";
+
+// Define callout variants
+$bd-callout-variants: primary, secondary, success, info, warning, danger !default;
+
+.bd-callout {
+  --#{$prefix}link-color-rgb: var(--bs-link-color);
+  --#{$prefix}code-color: var(--bs-code-color);
+
+  padding: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  color: var(--bd-callout-color, inherit);
+  background-color: var(--bd-callout-bg, var(--bs-light));
+  border-left: 0.25rem solid var(--bd-callout-border, var(--bs-gray-300));
+
+  h4 {
+    margin-bottom: 0.25rem;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  + .bd-callout {
+    margin-top: -0.25rem;
+  }
+
+  .highlight {
+    background-color: rgba($black, 0.05);
+  }
+}
+
+// Apply Bootstrap theme colors to callouts
+@each $variant in $bd-callout-variants {
+  .bd-callout-#{$variant} {
+    // Light mode
+    background-color: var(--bs-#{$variant}-bg-subtle);
+    border-left-color: var(--bs-#{$variant}-border-subtle);
+  }
+}
+

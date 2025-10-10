@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros/form.html" import form_group %}
+
+{% set title = "Login" %}
+{% set active_route = "accounts" %}
+
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            {# Action left blank on purpose to preserve "next" parameter #}
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                {{ form_group(form, name="email", required=True) }}
+                {{ form_group(form, name="password", required=True) }}
+                <div class="bottom-buttons">
+                    {{ form.submit(class="btn btn-success") }}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <hr class="mt-4">
+            <p class="mt-3">If you don't have an account, <a href="{{ url_for("accounts.register") }}">register here</a>.
+            </p>
+        </div>
+    </div>
+{% endblock body %}

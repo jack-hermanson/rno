@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_macros/form.html" import form_group %}
+{% from "_macros/action_dropdown.html" import action_dropdown, action_dropdown_item, action_dropdown_separator %}
+
+{% set active_route = "accounts" %}
+
+
+
+{% block body %}
+    <p>This is the "me" page for <b>{{ current_user.name }}</b>.</p>
+    <p>
+        There will be more stuff here in the future. To edit your account or log out, use the actions
+        menu in the top right corner of the screen.
+    </p>
+{% endblock body %}
+
+{% block actions %}
+    {% call action_dropdown() %}
+        {#        {{ action_dropdown_item("Edit", url_for("accounts.edit")) }}#}
+        {#        {{ action_dropdown_separator() }}#}
+        {{ action_dropdown_item("Log out", url_for("accounts.logout")) }}
+    {% endcall %}
+{% endblock %}

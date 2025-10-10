@@ -1,0 +1,48 @@
+$main-color: #629aa9;
+
+// Custom color definitions
+$primary: $main-color;  // Muted Navy Blue
+$secondary: #6c757d;  // Muted Gray
+$success: #2d6a4f;  // Deep Green
+$info: #4c6788;  // Muted Blue
+$warning: #b08968;  // Warm Brown
+$danger: #a63d40;  // Dark Red
+$light: #e9ecef;  // Soft Gray
+$dark: #212529;  // Deep Charcoal
+
+// Dark mode color definitions
+// todo - this doesn't seem to do what I want, or anything at all
+$primary-dark: $main-color;
+$secondary-dark: #868e96;
+$success-dark: #40916c;
+$info-dark: #5c7c99;
+$warning-dark: #c69c85;
+$danger-dark: #c44549;
+$light-dark: #343a40;
+$dark-dark: #dee2e6;
+
+// Inject custom colors into Bootstrap's theme system
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
+);
+
+// Dark mode theme colors
+[data-bs-theme="dark"] {
+  --bs-primary: #{$primary-dark};
+  --bs-secondary: #{$secondary-dark};
+  --bs-success: #{$success-dark};
+  --bs-info: #{$info-dark};
+  --bs-warning: #{$warning-dark};
+  --bs-danger: #{$danger-dark};
+  --bs-light: #{$light-dark};
+  --bs-dark: #{$dark-dark};
+}
+
+$body-bg: #f2f2f2;

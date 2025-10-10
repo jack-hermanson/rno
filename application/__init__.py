@@ -10,9 +10,12 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
+from application.modules.accounts.clearance import ClearanceEnum
+
 # from application.modules.accounts.clearance_enum import ClearanceEnum
 # from application.utils.crud_enum import CrudEnum
-# from application.utils.get_ip import get_ip
+from application.utils.get_ip import get_ip
+
 # from application.utils.ledger_item_type_enum import LedgerItemTypeEnum
 from Config import Config
 from logger import logger
@@ -22,9 +25,9 @@ db = SQLAlchemy()
 migrate = Migrate(compare_type=True)
 logging.basicConfig(level=logging.DEBUG)
 
-# login_manager = LoginManager()
-# login_manager.login_view = "accounts.login"
-# login_manager.login_message_category = "warning"
+login_manager = LoginManager()
+login_manager.login_view = "accounts.login"
+login_manager.login_message_category = "warning"
 
 
 def create_app(config_class: type[Config] = Config) -> Flask:
@@ -38,7 +41,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     bcrypt.init_app(app)
 
     # models
-    # import application.modules.accounts.models
+    import application.modules.accounts.models
     # import application.modules.ledger.models
     # import application.modules.schedule.models  # noqa: F401
 
@@ -52,7 +55,8 @@ def create_app(config_class: type[Config] = Config) -> Flask:
 
     # routes and blueprints
     # from application.modules.about.routes import about
-    # from application.modules.accounts.routes import accounts
+    from application.modules.accounts.routes import accounts
+
     # from application.modules.help.routes import help  # noqa: A004
     # from application.modules.ledger.routes import ledger
     from application.modules.main.routes import main  # noqa: PLC0415
@@ -61,11 +65,11 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     #
     # from .modules.errors.handlers import errors
 
-    for blueprint in [main]:
+    for blueprint in [main, accounts]:
         app.register_blueprint(blueprint)
 
     # login manager
-    # login_manager.init_app(app)
+    login_manager.init_app(app)
 
     # template filters / context processors / pre-request stuff
     @app.context_processor
@@ -73,7 +77,8 @@ def create_app(config_class: type[Config] = Config) -> Flask:
         return {
             "commit": subprocess.check_output(["git", "describe", "--always"]).strip().decode("utf-8"),
             "environment": os.environ.get("ENVIRONMENT"),
-            # "ClearanceEnum": ClearanceEnum,
+            "rno_name": os.environ.get("RNO_NAME"),
+            "ClearanceEnum": ClearanceEnum,
             # "CrudEnum": CrudEnum,
             # "LedgerItemTypeEnum": LedgerItemTypeEnum,
         }
@@ -84,7 +89,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
         request_path = request.path.lower()
         if not any(request_path.startswith(path) for path in excluded_paths):
             logger.debug(
-                # f"[{current_user.username if current_user.is_authenticated else 'anon'} - {get_ip(request)}] "
+                f"[{current_user.email if current_user.is_authenticated else 'anon'} - {get_ip(request)}] "
                 f"{request.method}: {request.path} ",
             )
 

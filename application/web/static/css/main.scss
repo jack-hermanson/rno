@@ -1,0 +1,91 @@
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 1380px,
+        xl: 1400px,
+        xxl: 1600px
+);
+
+$container-max-widths: (
+        sm: 540px,
+        md: 1000px,
+        lg: 1320px,
+        xl: 1390px,
+        xxl: 1560px
+);
+
+// Import custom colors first
+@import "colors";
+@import "fonts";
+
+// Import Bootstrap's SCSS files after custom colors
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "callout";
+@import "env_label";
+
+
+.sidebar, .mobile-nav, footer {
+  background: $light !important;
+}
+
+[data-bs-theme="dark"] {
+  .sidebar, .mobile-nav, footer {
+    background: $dark-bg-subtle-dark !important;
+  }
+}
+
+span.fake-link {
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover, &:active {
+    text-decoration-style: solid;
+  }
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+//.card {
+//  background-color: $dark;
+//}
+
+.form-group {
+  margin-bottom: 1em;
+}
+
+.page-title {
+  display: flex;
+  width: 100%;
+  padding-bottom: 0.25rem;
+
+  &:not(.no-border-bottom) {
+    @extend .border-bottom;
+  }
+
+  h2 {
+    display: block;
+  }
+
+  .actions {
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: 0.5em;
+  }
+}
+
+#main-container {
+  max-width: 1496px;
+  margin-left: 0;
+}

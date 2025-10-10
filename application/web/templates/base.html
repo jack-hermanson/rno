@@ -1,0 +1,277 @@
+{% from "_macros/nav_link.html" import nav_link %}
+
+<!DOCTYPE html>
+<html lang="en" x-data="themeSwitcher()" :data-bs-theme="currentTheme">
+<head>
+    <meta charset="UTF-8">
+
+    <title>{{ rno_name }} | {{ title }}</title>
+    <meta name="og:title" content="{{ rno_name }} | {{ title }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/jack-hermanson-css-lib/css/main.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="og:url" content="{{ request.url }}">
+    <meta name="og:image" content="{{ url_for('static', filename='images/balcony.JPG', _external=True) }}">
+    <meta name="og:description"
+          content="This is the management application for the {{ rno_name }} RNO, currently under construction.">
+    <script src="{{ url_for("static", filename="node_modules/htmx.org/dist/htmx.min.js") }}"></script>
+    <script>
+        (function () {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const savedTheme = localStorage.getItem('theme');
+            const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        })();
+    </script>
+    <script src="{{ url_for("static", filename="scripts/dark-mode.js") }}"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+
+<div class="flex-grow-1 d-flex">
+    <div class="row d-flex flex-grow-1 gx-0">
+        <div
+            id="nav"
+            class="offcanvas-lg offcanvas-start col-lg-2 h-100 flex-grow-1 px-lg-2 sidebar border-end overflow-y-auto"
+        >
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <a href="{{ url_for('main.index') }}" class="navbar-brand d-flex mx-auto">
+                        {#        todo logo #}
+                        {#            <img alt="logo" src="{{ url_for("static", filename="logo-transparent.png") }}" height="42"#}
+                        {#                 class="d-inline-block align-text-top logo me-2">#}
+                        <span class="d-inline-flex align-items-center my-auto pt-1">
+                            <span>
+                                {{ rno_name }}
+                            </span>
+                            {% if environment != "production" %}
+                                <span
+                                    class="env-label d-flex my-auto pt-1"
+                                >
+                                    {{ ' {' }}
+                                    {% if environment == "development" %}
+                                        dev
+                                    {% else %}
+                                        {{ environment }}
+                                    {% endif %}
+                                    {{ '}' }}
+                                </span>
+                            {% endif %}
+                        </span>
+                    </a>
+                </div>
+            </nav>
+            <div class="container-fluid pt-0">
+                <nav class="nav nav-pills flex-column">
+                    {{ nav_link(href=url_for('main.index'), active=(active_route == "main"), icon="fa-home", text="Home") }}
+                    {% if current_user.is_authenticated %}
+                        {#                        current_user.name|capitalize #}
+                        {{ nav_link(href=url_for('accounts.me'), active=(active_route == "accounts"), icon="fa-user", text=("My Account")) }}
+
+                    {% else %}
+                        {{ nav_link(href=url_for('accounts.login'), active=(active_route == "accounts"), icon="fa-user", text="Login") }}
+                    {% endif %}
+                    {#                    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.NORMAL %}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "meetings"), icon="fa-people-roof", text="Meetings") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "contacts"), icon="fa-address-book", text="Contacts") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "board"), icon="fa-users-between-lines", text="Board Members") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "bylaws"), icon="fa-scale-balanced", text="Bylaws") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "inventory"), icon="fa-box-open", text="Inventory") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "finances"), icon="fa-file-invoice-dollar", text="Finances") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "members"), icon="fa-house-circle-check", text="Members") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "notebook"), icon="fa-book", text="Notebook") }}#}
+                    {#                        {{ nav_link(href="#", active=(active_route == "newsletters"), icon="fa-envelope", text="Newsletters") }}#}
+                    {#                    {% endif %}#}
+                    {#                    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.ADMIN %}#}
+                    {#                        {{ nav_link(href=url_for('admin.dashboard'), active=(active_route == "admin"), icon="fa-cog", text="Admin") }}#}
+                    {#                    {% endif %}#}
+                    {{ nav_link(href="#", active=(active_route == "help"), icon="fa-question", text="Help") }}
+                </nav>
+            </div>
+            <div class="mt-auto pb-3 d-flex d-lg-none">
+                <button data-bs-toggle="offcanvas" data-bs-target="#nav"
+                        class="btn btn-outline-secondary mx-auto">
+
+                    <i class="fa fa-times me-1"></i>
+
+                    Close
+                </button>
+            </div>
+        </div>
+        <div class="col-12 col-lg-10 px-lg-2 mb-3">
+            {# MOBILE ONLY #}
+            <div class="d-lg-none">
+                <nav class="navbar mobile-nav">
+                    <div class="container-fluid">
+                        <a href="{{ url_for('main.index') }}" class="navbar-brand d-flex">
+
+                            <h4 class="d-inline-flex align-items-center my-auto">
+                                <span>
+                                    {{ rno_name }}
+                                </span>
+                                {% if environment != "production" %}
+                                    <span
+                                        class="env-label d-flex my-auto pt-1"
+                                    >
+                                        {{ ' {' }}
+                                        {% if environment == "development" %}
+                                            dev
+                                        {% else %}
+                                            {{ environment }}
+                                        {% endif %}
+                                        {{ '}' }}
+                                    </span>
+                                {% endif %}
+                            </h4>
+                        </a>
+
+
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#nav">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                    </div>
+                </nav>
+            </div>
+
+            <div class="container-fluid pt-3" id="main-container">
+
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        <div class="mb-2">
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} no-mb-last">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <p class="mb-0">{{ message }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                {% block tabs %}
+                {% endblock tabs %}
+
+                {% block breadcrumbs %}
+                {% endblock breadcrumbs %}
+
+                {% if not hide_title_row %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title mb-3 {% if title_row_no_border %}no-border-bottom{% endif %}">
+                                <h2 class="mb-0">
+                                    {% if title %}
+                                        {{ text_title if text_title else title }}
+                                    {% endif %}
+                                </h2>
+                                <div class="actions">
+                                    {% block actions %}
+
+                                    {% endblock actions %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% block body %}{% endblock body %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block modals %}{% endblock modals %}
+
+<script src="{{ url_for("static", filename="node_modules/bootstrap/dist/js/bootstrap.bundle.js") }}"></script>
+
+<footer class="border-top py-3">
+    <div class="container-fluid">
+
+        <div class="d-flex px-lg-2">
+
+            <div class="me-auto mb-2">
+                <h5 class="mb-0">{{ rno_name }} RNO Solution
+
+                </h5>
+                <span class="small my-auto">
+                    Commit # <a
+                    target="_blank"
+                    href="https://github.com/jack-hermanson/RNO/commit/{{ commit }}"
+                    rel="noopener"
+
+                >{{ commit }}
+                    </a>
+                </span>
+
+            </div>
+            <div>
+                <div class="btn-group">
+
+                    <button class="btn btn-sm btn-outline-primary fw-bold"
+                            @click="setTheme('light')"
+                            :aria-pressed="currentTheme === 'light'"
+                            :class="{'active': currentTheme === 'light'}"
+                            data-bs-theme-value="light">
+                        Light
+                    </button>
+
+                    <button class="btn btn-sm btn-outline-primary fw-bold"
+                            @click="setTheme('dark')"
+                            :aria-pressed="currentTheme === 'dark'"
+                            :class="{'active': currentTheme === 'dark'}"
+                            data-bs-theme-value="dark">
+                        Dark
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        {#        <div class="row">#}
+        {#            <div class="col">#}
+        {#                <div class="ps-lg-2">#}
+        {##}
+        {##}
+        {#                    <nav class="flex-column d-flex">#}
+        {#                        <div class="nav-item">#}
+        {#                            <a class="nav-link" href="#">Help</a>#}
+        {##}
+        {#                        </div>#}
+        {#                        <div class="nav-item">#}
+        {#                            <a class="nav-link" href="#">Contact</a>#}
+        {##}
+        {#                        </div>#}
+        {##}
+        {#                    </nav>#}
+        {##}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+
+        {#        <div class="row">#}
+        {#            <div class="col-10 col-lg-5">#}
+        {#                <div class="ps-lg-2 mt-2 border-top">#}
+        {#                    <span class="h6 text-muted my-auto">Build#}
+        {#                        #}
+        {#                    </span>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#        </div>#}
+
+    </div>
+</footer>
+
+{% block scripts %}{% endblock scripts %}
+<script src="{{ url_for('static', filename='node_modules/alpinejs/dist/cdn.js') }}"></script>
+
+</body>
+
+</html>
