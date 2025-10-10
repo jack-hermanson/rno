@@ -76,20 +76,20 @@
                     {% else %}
                         {{ nav_link(href=url_for('accounts.login'), active=(active_route == "accounts"), icon="fa-user", text="Login") }}
                     {% endif %}
-                    {#                    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.NORMAL %}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "meetings"), icon="fa-people-roof", text="Meetings") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "contacts"), icon="fa-address-book", text="Contacts") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "board"), icon="fa-users-between-lines", text="Board Members") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "bylaws"), icon="fa-scale-balanced", text="Bylaws") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "inventory"), icon="fa-box-open", text="Inventory") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "finances"), icon="fa-file-invoice-dollar", text="Finances") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "members"), icon="fa-house-circle-check", text="Members") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "notebook"), icon="fa-book", text="Notebook") }}#}
-                    {#                        {{ nav_link(href="#", active=(active_route == "newsletters"), icon="fa-envelope", text="Newsletters") }}#}
-                    {#                    {% endif %}#}
-                    {#                    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.ADMIN %}#}
-                    {#                        {{ nav_link(href=url_for('admin.dashboard'), active=(active_route == "admin"), icon="fa-cog", text="Admin") }}#}
-                    {#                    {% endif %}#}
+                    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.NORMAL %}
+                        {{ nav_link(href="#", active=(active_route == "meetings"), icon="fa-people-roof", text="Meetings") }}
+                        {{ nav_link(href="#", active=(active_route == "contacts"), icon="fa-address-book", text="Contacts") }}
+                        {{ nav_link(href="#", active=(active_route == "board"), icon="fa-users-between-lines", text="Board Members") }}
+                        {{ nav_link(href="#", active=(active_route == "bylaws"), icon="fa-scale-balanced", text="Bylaws") }}
+                        {{ nav_link(href="#", active=(active_route == "inventory"), icon="fa-box-open", text="Inventory") }}
+                        {{ nav_link(href="#", active=(active_route == "finances"), icon="fa-file-invoice-dollar", text="Finances") }}
+                        {{ nav_link(href="#", active=(active_route == "members"), icon="fa-house-circle-check", text="Members") }}
+                        {{ nav_link(href="#", active=(active_route == "notebook"), icon="fa-book", text="Notebook") }}
+                        {{ nav_link(href="#", active=(active_route == "newsletters"), icon="fa-envelope", text="Newsletters") }}
+                    {% endif %}
+                    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.ADMIN %}
+                        {{ nav_link(href="#", active=(active_route == "admin"), icon="fa-cog", text="Admin") }}
+                    {% endif %}
                     {{ nav_link(href="#", active=(active_route == "help"), icon="fa-question", text="Help") }}
                 </nav>
             </div>
