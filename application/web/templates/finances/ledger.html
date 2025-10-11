@@ -1,0 +1,533 @@
+{% extends "base.html" %}
+{% from "finances/finances-tabs.html" import finances_tabs %}
+
+{% block tabs %}
+    {{ finances_tabs("ledger") }}
+{% endblock tabs %}
+
+{% set active_route = "finances" %}
+
+{% set title = "Ledger" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Filtering</h5>
+                </div>
+                <div class="card-body">
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-12 col-lg-3 mb-3 mb-lg-0">
+                                <div class="form-group">
+                                    <label class="form-label" for="start">Start</label>
+                                    <select class="form-select" id="start">
+                                        <option value="">2025-10</option>
+                                        <option value="">2025-09</option>
+                                        <option value="">2025-08</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-3 mb-3 mb-lg-0">
+                                <div class="form-group">
+                                    <label class="form-label" for="end">End</label>
+                                    <select class="form-select" id="end">
+                                        <option value="">2025-10</option>
+                                        <option value="">2025-09</option>
+                                        <option value="">2025-08</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-3 mb-3 mb-lg-0">
+                                <div class="form-group">
+                                    <label for="category" class="form-label">Category</label>
+                                    <select name="category" id="category" class="form-select">
+                                        <option value="">--</option>
+                                        <option value="">Donations</option>
+                                        <option value="">Membership</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-label" for="search">Search</label>
+                                    <input class="form-control" id="search" type="search" placeholder="Search...">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive-sm">
+                <table class="table table-hover" id="ledger">
+                    <thead class="sticky-top">
+                    <tr>
+                        <th class="border-bottom-0" scope="col">Date</th>
+                        <th class="border-bottom-0" scope="col">Category</th>
+                        <th class="border-bottom-0" scope="col">Description</th>
+                        <th class="border-bottom-0" scope="col">Income</th>
+                        <th class="border-bottom-0" scope="col">Expense</th>
+                        <th class="border-bottom-0" scope="col">Balance</th>
+                    </tr>
+                    <tr>
+                        <td colspan="6" class="py-0" style="background: white; height: 2px;"></td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    {# copied #}
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-02</td>
+                        <td>
+                            <span class="badge bg-danger">Email & Website</span>
+                        </td>
+                        <td>Mailchimp fee</td>
+                        <td></td>
+                        <td class="font-monospace">
+                            ($11.00)
+                        </td>
+                        <td class="font-monospace">
+                            $1,447.91
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2025-10-01</td>
+                        <td>
+                            <span class="badge bg-success">Memberships</span>
+                        </td>
+                        <td>Membership renewal for some household</td>
+                        <td class="font-monospace">
+                            $20.00
+                        </td>
+                        <td></td>
+                        <td class="font-monospace">
+                            $1,458.91
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr style="border-top: 5px solid white;">
+                        <th scope="row" colspan="3">Total</th>
+                        <td class="font-monospace fw-bold">
+                            {{ "${:,.2f}".format(200.00) }}
+                        </td>
+                        <td class="font-monospace fw-bold">
+                            ({{ "{:,.2f}".format(500.00) }})
+                        </td>
+                        <td class="font-monospace fw-bold">
+                            ({{ "{:,.2f}".format(300.00) }})
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock body %}

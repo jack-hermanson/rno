@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% from "finances/finances-tabs.html" import finances_tabs %}
+
+{% block tabs %}
+    {{ finances_tabs("dashboard") }}
+{% endblock tabs %}
+
+{% set active_route = "finances" %}
+
+
+{% set title = "Finances Dashboard" %}

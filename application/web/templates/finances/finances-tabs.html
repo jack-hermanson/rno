@@ -1,0 +1,10 @@
+{% from "_macros/tabs.html" import tabs, tab %}
+
+{% macro finances_tabs(active_tab="dashboard") %}
+
+    {% call tabs() %}
+        {{ tab(name="Dashboard", url=url_for("finances.index"), is_active=(active_tab == "dashboard")) }}
+        {{ tab(name="Ledger", url=url_for("finances.ledger"), is_active=(active_tab == "ledger")) }}
+    {% endcall %}
+
+{% endmacro %}
