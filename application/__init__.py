@@ -41,9 +41,9 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     bcrypt.init_app(app)
 
     # models
-    import application.modules.accounts.models
-    # import application.modules.ledger.models
-    # import application.modules.schedule.models  # noqa: F401
+    import application.modules.accounts.models  # noqa: PLC0415
+    import application.modules.finances.models  # noqa: PLC0415, F401
+    # import application.modules.schedule.models
 
     # database
     db.app = app

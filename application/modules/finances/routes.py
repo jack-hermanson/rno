@@ -20,4 +20,14 @@ def add() -> ResponseReturnValue:
 
 @finances.route("/ledger")
 def ledger() -> ResponseReturnValue:
+    """
+    todo:
+    Needs to be able to accept params for:
+    - order by (date, category, description, income, expense)
+    - start
+    - end
+    - search
+    - category
+    and return that in a way that the front end can generate URLs that preserve these params.
+    """
     return render_template("finances/ledger.html")

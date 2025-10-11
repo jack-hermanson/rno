@@ -1,14 +1,17 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from flask_login import UserMixin
 from sqlalchemy import DateTime, Integer, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from application import db
 from application.modules.accounts.clearance import ClearanceEnum
 
 # if TYPE_CHECKING:
 #     from application.modules.schedule.models import CoverageRequest, Shift, ShiftAssignment
+if TYPE_CHECKING:
+    from application.modules.finances.models import LedgerItem
 
 
 class Account(db.Model, UserMixin):
@@ -24,8 +27,8 @@ class Account(db.Model, UserMixin):
     clearance: Mapped[int] = mapped_column(Integer, default=ClearanceEnum.UNVERIFIED, nullable=False)
     last_login: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
 
-    # # One-to-many relationship to LedgerItem
-    # ledger_items: Mapped[list[LedgerItem]] = relationship(back_populates="account", cascade="all, delete-orphan")
+    # One-to-many relationship to LedgerItem
+    ledger_items: Mapped[list["LedgerItem"]] = relationship(back_populates="account", cascade="all, delete-orphan")
     #
     # # One-to-many relationship to Shift - these are like "the exact evening of Monday, June 16"
     # assigned_shifts: Mapped[list["Shift"]] = relationship(
