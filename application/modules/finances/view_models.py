@@ -23,3 +23,5 @@ class LedgerViewModel:
     total_expense: Decimal
     ending_balance: Decimal
     ledger_items: list[LedgerItemViewModel]
+    order: str
+    order_by: str

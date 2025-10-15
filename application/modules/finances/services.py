@@ -1,16 +1,18 @@
+import csv
+import io
 from datetime import date
 from decimal import Decimal
 from time import perf_counter
 
-from sqlalchemy import case, func, select
+from sqlalchemy import case, desc, func, select
 
-from application import db
+from application import LedgerItemTypeEnum, db
 from application.modules.finances.models import LedgerItem
 from application.modules.finances.view_models import LedgerItemViewModel, LedgerViewModel
 from logger import logger
 
 
-def get_ledger(start: date, end: date) -> LedgerViewModel:
+def get_ledger(start: date, end: date, order: str, order_by: str) -> LedgerViewModel:
     # Step 1: running total over all ledger items
     big_query_started = perf_counter()
     ledger_with_balance = select(
@@ -37,7 +39,17 @@ def get_ledger(start: date, end: date) -> LedgerViewModel:
     stmt = (
         select(ledger_with_balance)
         .where(ledger_with_balance.c.ledger_item_date.between(start, end))
-        .order_by(ledger_with_balance.c.ledger_item_date, ledger_with_balance.c.ledger_item_id)
+        # .order_by(ledger_with_balance.c.ledger_item_date, ledger_with_balance.c.ledger_item_id)
+        .order_by(
+            ledger_with_balance.c.ledger_item_date
+            if order == "asc" and order_by == "date"
+            else desc(ledger_with_balance.c.ledger_item_date)
+            if order == "desc" and order_by == "date"
+            else ledger_with_balance.c.ledger_item_id
+            if order == "asc" and order_by == "id"
+            else desc(ledger_with_balance.c.ledger_item_id)
+            # desc(ledger_with_balance.c.ledger_item_date)
+        )
     )
     filter_query_ended = perf_counter()
     logger.debug(f"Completed filter query in {(filter_query_ended - filter_query_started):.6f} seconds")
@@ -78,4 +90,26 @@ def get_ledger(start: date, end: date) -> LedgerViewModel:
         total_expense=total_expense,
         ending_balance=(ordered_ledger_items[-1].balance if len(ordered_ledger_items) > 0 else Decimal(0)),
         ledger_items=ordered_ledger_items,
+        order=order,
+        order_by=order_by,
     )
+
+
+def ledger_items_to_csv(ledger_items: list[LedgerItemViewModel]) -> str:
+    output = io.StringIO()
+    writer = csv.writer(output, quoting=csv.QUOTE_ALL)
+
+    headers = ["id", "date", "description", "income", "expense", "balance"]
+    writer.writerow(headers)
+
+    for row in ledger_items:
+        data = [
+            f"{row.ledger_item_id}",
+            row.ledger_item_date.strftime("%-m/%-d/%y"),
+            row.description,
+            f"{row.amount:.2f}" if row.ledger_item_type == LedgerItemTypeEnum.INCOME else "",
+            f"{row.amount:.2f}" if row.ledger_item_type == LedgerItemTypeEnum.EXPENSE else "",
+            f"{row.balance:.2f}" if row.balance else "",
+        ]
+        writer.writerow(data)
+    return output.getvalue()
