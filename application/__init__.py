@@ -1,17 +1,15 @@
 import logging
 import os
 import subprocess
-from typing import Type
 
 from flask import Flask, request
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, current_user
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
 
 from application.modules.accounts.clearance import ClearanceEnum
-from application.modules.finances.ledger_item_type_enum import LedgerItemTypeEnum
+from application.modules.finances.ledger.ledger_item_type_enum import LedgerItemTypeEnum
 
 # from application.modules.accounts.clearance_enum import ClearanceEnum
 # from application.utils.crud_enum import CrudEnum

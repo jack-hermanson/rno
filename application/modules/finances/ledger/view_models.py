@@ -2,7 +2,7 @@ import dataclasses
 from datetime import date
 from decimal import Decimal
 
-from application.modules.finances.ledger_item_type_enum import LedgerItemTypeEnum
+from application.modules.finances.ledger.ledger_item_type_enum import LedgerItemTypeEnum
 
 
 @dataclasses.dataclass

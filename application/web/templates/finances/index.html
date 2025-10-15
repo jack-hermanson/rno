@@ -9,3 +9,58 @@
 
 
 {% set title = "Finances Dashboard" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-12 col-lg-4 mb-3 mb-lg-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Current Balance</h5>
+                    <span class="font-monospace display-6">
+                        ${{ "{:,.2f}".format(dashboard_data.current_balance) }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 mb-3 mb-lg-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Transactions</h5>
+                    <table class="table-striped table mb-0">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for recent_transaction in dashboard_data.recent_transactions %}
+                            <tr>
+                                <td>{{ recent_transaction.ledger_item_date }}</td>
+                                <td>
+                                    {% if recent_transaction.ledger_item_type == LedgerItemTypeEnum.INCOME %}
+                                        ${{ "{:,.2f}".format(recent_transaction.amount) }}
+                                    {% else %}
+                                        ({{ "{:,.2f}".format(recent_transaction.amount) }})
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ recent_transaction.description|truncate(15) }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 mb-3 mb-lg-0">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Audit Logs</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

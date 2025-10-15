@@ -6,8 +6,8 @@ from sqlalchemy import Date, DateTime, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from application import db
-from application.modules.finances.ledger_item_category_enum import LedgerItemCategoryEnum
-from application.modules.finances.ledger_item_type_enum import LedgerItemTypeEnum
+from application.modules.finances.ledger.ledger_item_category_enum import LedgerItemCategoryEnum
+from application.modules.finances.ledger.ledger_item_type_enum import LedgerItemTypeEnum
 from application.utils.date_time import utcnow
 
 if TYPE_CHECKING:
