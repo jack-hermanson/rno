@@ -11,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
 from application.modules.accounts.clearance import ClearanceEnum
+from application.modules.finances.ledger_item_type_enum import LedgerItemTypeEnum
 
 # from application.modules.accounts.clearance_enum import ClearanceEnum
 # from application.utils.crud_enum import CrudEnum
@@ -81,7 +82,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
             "rno_name": os.environ.get("RNO_NAME"),
             "ClearanceEnum": ClearanceEnum,
             # "CrudEnum": CrudEnum,
-            # "LedgerItemTypeEnum": LedgerItemTypeEnum,
+            "LedgerItemTypeEnum": LedgerItemTypeEnum,
         }
 
     @app.before_request

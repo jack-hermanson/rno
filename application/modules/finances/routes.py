@@ -1,8 +1,12 @@
-from flask import Blueprint, render_template
+from datetime import datetime
+
+from flask import Blueprint, render_template, request
 from flask.typing import ResponseReturnValue
 
 from application import ClearanceEnum
 from application.modules.accounts.requires_clearance import requires_clearance
+from application.modules.finances.services import get_ledger
+from application.utils.date_time import LOCAL_TIMEZONE
 
 finances = Blueprint("finances", __name__, url_prefix="/finances")
 
@@ -20,14 +24,8 @@ def add() -> ResponseReturnValue:
 
 @finances.route("/ledger")
 def ledger() -> ResponseReturnValue:
-    """
-    todo:
-    Needs to be able to accept params for:
-    - order by (date, category, description, income, expense)
-    - start
-    - end
-    - search
-    - category
-    and return that in a way that the front end can generate URLs that preserve these params.
-    """
-    return render_template("finances/ledger.html")
+    start = request.args.get("start") or datetime.now(tz=LOCAL_TIMEZONE).date().replace(day=1)
+    end = request.args.get("end") or datetime.now(tz=LOCAL_TIMEZONE).date()
+
+    ledger_data = get_ledger(start, end)
+    return render_template("finances/ledger.html", ledger_data=ledger_data)
