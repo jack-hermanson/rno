@@ -39,3 +39,32 @@ class LedgerItem(db.Model):
 
     # Relationship back to Account
     account: Mapped["Account"] = relationship(back_populates="ledger_items")
+
+    # Audit Log entries
+    ledger_item_audit_log_entries: Mapped[list["LedgerItemAuditLogEntry"]] = relationship(
+        back_populates="ledger_item",
+    )
+
+
+class LedgerItemAuditLogEntry(db.Model):
+    __tablename__ = "ledger_item_audit_log_entry"
+    ledger_item_audit_log_entry_id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+
+    ledger_item_id: Mapped[int] = mapped_column(ForeignKey("ledger_item.ledger_item_id"), nullable=False)
+    ledger_item: Mapped[LedgerItem] = relationship(back_populates="ledger_item_audit_log_entries")
+
+    created_datetime_utc: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+        default=utcnow,
+    )
+    description: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+        server_default="",
+        insert_default="",
+        default="",
+    )
+
+    account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"), nullable=False)
+    account: Mapped["Account"] = relationship(back_populates="ledger_item_audit_log_entries")
