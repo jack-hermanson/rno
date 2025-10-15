@@ -52,10 +52,10 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item"
-                                                   href="{{ url_for('finances.ledger', download='true', csv='true') }}">Download
+                                                   href="{{ url_for('finances.ledger', download='true', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Download
                                                 CSV</a></li>
                                             <li><a class="dropdown-item"
-                                                   href="{{ url_for('finances.ledger', download='false', csv='true') }}">Open
+                                                   href="{{ url_for('finances.ledger', download='false', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Open
                                                 CSV in new tab</a></li>
                                         </ul>
                                     </div>
