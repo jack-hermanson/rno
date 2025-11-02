@@ -9,7 +9,7 @@ from application import LedgerItemTypeEnum
 from application.modules.finances.ledger.ledger_item_category_enum import LedgerItemCategoryEnum
 
 
-class CreateOrEditLedgerItemForm(FlaskForm):
+class CreateEditLedgerItemForm(FlaskForm):
     # only for edit
     ledger_item_id = IntegerField(validators=[Optional()], widget=HiddenInput())
 
@@ -18,8 +18,8 @@ class CreateOrEditLedgerItemForm(FlaskForm):
         coerce=int,
         choices=[
             (0, "Select..."),
-            (LedgerItemTypeEnum.EXPENSE, "- Expense"),
             (LedgerItemTypeEnum.INCOME, "+ Income"),
+            (LedgerItemTypeEnum.EXPENSE, "- Expense"),
         ],
         validators=[
             AnyOf(
@@ -35,9 +35,9 @@ class CreateOrEditLedgerItemForm(FlaskForm):
 
     category = SelectField(
         "Category",
-        coerce=int,
+        coerce=(lambda x: LedgerItemCategoryEnum(int(x)) if x != "" else ""),
         choices=[
-            (None, "(no category)"),
+            ("", "(no category)"),
             (LedgerItemCategoryEnum.MEMBERSHIP, "Membership"),
             (LedgerItemCategoryEnum.DONATION, "Donation"),
             (LedgerItemCategoryEnum.WEBSITE_EMAIL_SUBSCRIPTION, "Website/Email Subscription"),
@@ -54,4 +54,4 @@ class CreateOrEditLedgerItemForm(FlaskForm):
         description="If there are more sensitive details that we do not want to show to the public (like names and "
         "addresses), save them here",
     )
-    submit = SubmitField("Create" if ledger_item_id is None else "Save Changes")
+    submit = SubmitField("Submit")

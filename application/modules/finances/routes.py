@@ -1,13 +1,14 @@
 from datetime import datetime
 from time import perf_counter
 
-from flask import Blueprint, Response, render_template, request
+from flask import Blueprint, Response, flash, redirect, render_template, request, url_for
 from flask.typing import ResponseReturnValue
 
-from application import ClearanceEnum
+from application import ClearanceEnum, CrudEnum
 from application.modules.accounts.requires_clearance import requires_clearance
 from application.modules.finances.dashboard.services import get_dashboard_data
-from application.modules.finances.ledger.services import get_ledger, ledger_items_to_csv
+from application.modules.finances.ledger.forms import CreateEditLedgerItemForm
+from application.modules.finances.ledger.services import create_ledger_item, get_ledger, ledger_items_to_csv
 from application.utils.date_time import LOCAL_TIMEZONE
 from logger import logger
 
@@ -23,10 +24,20 @@ def index() -> ResponseReturnValue:
     )
 
 
-@finances.route("/add", methods=["GET", "POST"])
+@finances.route("/ledger/create", methods=["GET", "POST"])
 @requires_clearance(ClearanceEnum.ADMIN)
-def add() -> ResponseReturnValue:
-    return ""
+def create() -> ResponseReturnValue:
+    form = CreateEditLedgerItemForm()
+    if form.validate_on_submit():
+        create_ledger_item(form)
+        flash("Ledger item created successfully.", "success")
+        return redirect(url_for("finances.ledger"))
+    return render_template("finances/create-edit-ledger-item.html", mode=CrudEnum.CREATE, form=form)
+
+
+@finances.route("/ledger/edit/:ledger_item_id", methods=["GET", "POST"])
+def edit(ledger_item_id: int) -> ResponseReturnValue:
+    return render_template("finances/create-edit-ledger-item.html", ledger_item_id=ledger_item_id, mode=CrudEnum.EDIT)
 
 
 @finances.route("/ledger")
