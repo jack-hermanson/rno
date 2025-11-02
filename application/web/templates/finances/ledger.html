@@ -55,6 +55,7 @@
                                                    href="{{ url_for('finances.ledger', download='true', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Download
                                                 CSV</a></li>
                                             <li><a class="dropdown-item"
+                                                   target="_blank"
                                                    href="{{ url_for('finances.ledger', download='false', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Open
                                                 CSV in new tab</a></li>
                                         </ul>
@@ -82,9 +83,9 @@
                                 order_by="id", start=ledger_data.start, end=ledger_data.end) }}">
                                 ID
                                 {% if ledger_data.order_by == "id" and ledger_data.order == "asc" %}
-                                    &uarr;
-                                {% elif ledger_data.order_by == "id" and ledger_data.order == "desc" %}
                                     &darr;
+                                {% elif ledger_data.order_by == "id" and ledger_data.order == "desc" %}
+                                    &uarr;
                                 {% endif %}
                             </a>
 
@@ -94,9 +95,11 @@
                                 order_by="date", start=ledger_data.start, end=ledger_data.end) }}">
                                 Date
                                 {% if ledger_data.order_by == "date" and ledger_data.order == "asc" %}
-                                    &uarr;
-                                {% elif ledger_data.order_by == "date" and ledger_data.order == "desc" %}
                                     &darr;
+
+                                {% elif ledger_data.order_by == "date" and ledger_data.order == "desc" %}
+                                    &uarr;
+
                                 {% endif %}
                             </a>
                         </th>
