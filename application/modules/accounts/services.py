@@ -1,9 +1,9 @@
 import time
 from datetime import datetime, timedelta
 
+import pytz
 from flask import flash
 from flask_login import current_user, login_user
-from pytz import UTC
 from sqlalchemy import func, or_
 
 from application import bcrypt, db
@@ -34,12 +34,12 @@ def log_user_in(form: LoginForm) -> bool:
     ).first()
     if account and bcrypt.check_password_hash(account.password, form.password.data):
         login_user(account, remember=True, duration=timedelta(days=99))
-        last_login: datetime = account.last_login
+        last_login: datetime | None = account.last_login
         formatted_last_login = (
             utc_to_local(last_login).strftime("%A, %D at %l:%M %p") if account.last_login is not None else "never"
         )
         flash(f"Welcome back, {account.name}. Your last login was {formatted_last_login}.", "info")
-        current_user.last_login = datetime.now(tz=UTC)
+        current_user.last_login = datetime.now(tz=pytz.utc)
         db.session.commit()
         return True
     time.sleep(0.5)  # prevent spamming
