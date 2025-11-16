@@ -109,17 +109,6 @@ class EditAccountForm(CreateOrEditAccountFormBase):
     submit = SubmitField("Save Changes")
 
     @staticmethod
-    def validate_username(_: EditAccountForm, username: StringField) -> None:
-        # Check if it already exists.
-        if Account.query.filter(
-            and_(
-                func.lower(Account.username) == func.lower(username.data),  # Has same username, and...
-                Account.account_id != current_user.account_id,  # has same account id.
-            ),
-        ).all():
-            raise ValidationError("That username has already been taken.")
-
-    @staticmethod
     def validate_email(_: EditAccountForm, email: StringField) -> None:
         if Account.query.filter(
             and_(

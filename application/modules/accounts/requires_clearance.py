@@ -14,11 +14,13 @@ def requires_clearance(minimum_clearance: ClearanceEnum) -> Callable:
         def wrapped(*args, **kwargs) -> Callable:
             if not current_user.is_authenticated:
                 logger.warning(
-                    f"Anonymous user tried to access {request.path}\nUser-agent: {request.headers.get('User-Agent')}"
+                    f"Anonymous user tried to access {request.path}\nUser-agent: {request.headers.get('User-Agent')}",
                 )
                 return redirect(url_for("accounts.login", next=request.path))
             if not current_user.clearance >= minimum_clearance:
-                logger.warning(f"<{current_user.username}, {current_user.account_id}> tried to access {request.path}")
+                logger.warning(
+                    f"<{current_user.name}, {current_user.account_id}> tried to access {request.path} but was DENIED",
+                )
                 return abort(HTTPStatus.FORBIDDEN)
             return func(*args, **kwargs)
 

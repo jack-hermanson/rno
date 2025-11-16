@@ -43,6 +43,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
 
     # models
     import application.modules.accounts.models  # noqa: PLC0415
+    import application.modules.contacts.models  # noqa: PLC0415
     import application.modules.finances.models  # noqa: PLC0415, F401
     # import application.modules.schedule.models
 
@@ -57,6 +58,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     # routes and blueprints
     # from application.modules.about.routes import about
     from application.modules.accounts.routes import accounts  # noqa: PLC0415
+    from application.modules.contacts.routes import contacts  # noqa: PLC0415
     from application.modules.finances.routes import finances  # noqa: PLC0415
     from application.modules.main.routes import main  # noqa: PLC0415
 
@@ -67,7 +69,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     #
     # from .modules.errors.handlers import errors
 
-    for blueprint in [main, accounts, finances]:
+    for blueprint in [main, accounts, finances, contacts]:
         app.register_blueprint(blueprint)
 
     # login manager
@@ -92,7 +94,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
         request_path = request.path.lower()
         if not any(request_path.startswith(path) for path in excluded_paths):
             logger.debug(
-                f"[{current_user.email if current_user.is_authenticated else 'anon'} - {get_ip(request)}] "
+                f"[<{f'{current_user.name}, {current_user.account_id}' if current_user.is_authenticated else 'anon'}> - {get_ip(request)}] "
                 f"{request.method}: {request.path} ",
             )
 
