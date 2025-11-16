@@ -23,10 +23,10 @@
 {% block body %}
     <form action="{{ request.url }}" method="POST">
         {{ form.hidden_tag() }}
+        {{ form_group(form, "amount", required=True, col_lg=4, input_group_text="$", render_kw={"autofocus": "true"}) }}
         {{ form_group(form, "ledger_item_type", type="select", required=True, col_lg=4) }}
         {{ form_group(form, "category", type="select", required=False, col_lg=4) }}
         {{ form_group(form, "ledger_item_date", required=True, col_lg=4) }}
-        {{ form_group(form, "amount", required=True, col_lg=4, input_group_text="$") }}
         {{ form_group(form, "description", required=True, col_lg=6) }}
         {{ form_group(form, "private_notes", type="textarea", required=False, col_lg=6) }}
         <div class="bottom-buttons">
