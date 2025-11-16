@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% from "finances/finances-tabs.html" import finances_tabs %}
+{% from "_macros/breadcrumbs.html" import breadcrumbs %}
+{% from "_macros/form.html" import form_group %}
+{% set active_route = "finances" %}
+
+{% block tabs %}
+    {{ finances_tabs("ledger") }}
+{% endblock tabs %}
+
+{% block breadcrumbs %}
+    {{ breadcrumbs([
+        (url_for('finances.index'), 'Finances'),
+        (url_for('finances.ledger'), 'Ledger'),
+        (request.url, mode.name|capitalize)
+    ]) }}
+{% endblock breadcrumbs %}
+
+
+
+{% set title = "Create Ledger Item" %}
+
+{% block body %}
+    <form action="{{ request.url }}" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form_group(form, "ledger_item_type", type="select", required=True, col_lg=4) }}
+        {{ form_group(form, "category", type="select", required=False, col_lg=4) }}
+        {{ form_group(form, "ledger_item_date", required=True, col_lg=4) }}
+        {{ form_group(form, "amount", required=True, col_lg=4, input_group_text="$") }}
+        {{ form_group(form, "description", required=True, col_lg=6) }}
+        {{ form_group(form, "private_notes", type="textarea", required=False, col_lg=6) }}
+        <div class="bottom-buttons">
+            {{ form.submit(class="btn btn-success") }}
+            <a href="{{ request.url }}" class="btn btn-secondary">Reset</a>
+        </div>
+    </form>
+{% endblock body %}

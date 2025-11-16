@@ -9,13 +9,18 @@
 
 {% set title = "Ledger" %}
 
+{% block actions %}
+    <a href="{{ url_for('finances.create') }}" class="btn btn-sm btn-success">
+        <i class="fas fa-plus"></i>
+        Create Ledger Item
+    </a>
+{% endblock actions %}
+
 {% block body %}
+    {# filtering #}
     <div class="row">
         <div class="col-12 mb-3">
             <div class="card">
-                {#                <div class="card-header">#}
-                {#                    <h5 class="card-title mb-0"></h5>#}
-                {#                </div>#}
                 <div class="card-body">
                     <form action="{{ url_for('finances.ledger') }}">
                         <input type="hidden" name="order_by" value="{{ ledger_data.order_by }}">
@@ -64,14 +69,13 @@
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 
 
-
+    {# the data #}
     <div class="row">
         <div class="col">
             <div class="table-responsive-sm">
@@ -123,7 +127,7 @@
                             </td>
                             <td>{{ ledger_item.ledger_item_date }}</td>
                             <td>
-                                <span class="font-monospace text-muted">todo</span>
+                                {{ LedgerItemCategoryEnum(ledger_item.category).name|capitalize if ledger_item.category else "" }}
                             </td>
                             <td>
                                 {{ ledger_item.description }}

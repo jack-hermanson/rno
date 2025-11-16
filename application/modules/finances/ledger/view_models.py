@@ -2,6 +2,7 @@ import dataclasses
 from datetime import date
 from decimal import Decimal
 
+from application.modules.finances.ledger.ledger_item_category_enum import LedgerItemCategoryEnum
 from application.modules.finances.ledger.ledger_item_type_enum import LedgerItemTypeEnum
 
 
@@ -10,6 +11,7 @@ class LedgerItemViewModel:
     ledger_item_id: int
     ledger_item_date: date
     ledger_item_type: LedgerItemTypeEnum
+    category: LedgerItemCategoryEnum
     amount: Decimal
     description: str
     balance: Decimal

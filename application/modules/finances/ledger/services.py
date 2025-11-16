@@ -4,10 +4,13 @@ from datetime import date
 from decimal import Decimal
 from time import perf_counter
 
+from flask_login import current_user
 from sqlalchemy import case, desc, func, select
 
 from application import LedgerItemTypeEnum, db
 from application.modules.finances.common.total_income_and_expense import get_total_income_and_expense
+from application.modules.finances.ledger.forms import CreateEditLedgerItemForm
+from application.modules.finances.ledger.ledger_item_category_enum import LedgerItemCategoryEnum
 from application.modules.finances.ledger.view_models import LedgerItemViewModel, LedgerViewModel
 from application.modules.finances.models import LedgerItem
 from logger import logger
@@ -20,6 +23,7 @@ def get_ledger(start: date, end: date, order: str, order_by: str) -> LedgerViewM
         LedgerItem.ledger_item_id,
         LedgerItem.ledger_item_date,
         LedgerItem.ledger_item_type,
+        LedgerItem.category,
         LedgerItem.amount,
         LedgerItem.description,
         func.sum(
@@ -95,3 +99,31 @@ def ledger_items_to_csv(ledger_items: list[LedgerItemViewModel]) -> str:
         ]
         writer.writerow(data)
     return output.getvalue()
+
+
+def create_ledger_item(form: CreateEditLedgerItemForm) -> LedgerItem:
+    ledger_item = LedgerItem()
+    _set_ledger_item_from_form(form, ledger_item)
+    ledger_item.account = current_user
+    db.session.add(ledger_item)
+    db.session.commit()
+    return ledger_item
+
+
+def _set_ledger_item_from_form(form: CreateEditLedgerItemForm, ledger_item: LedgerItem) -> None:
+    ledger_item.ledger_item_type = LedgerItemTypeEnum(form.ledger_item_type.data)
+    ledger_item.category = LedgerItemCategoryEnum(form.category.data) if form.category.data else None
+    ledger_item.description = form.description.data
+    ledger_item.private_notes = form.private_notes.data
+    ledger_item.ledger_item_date = form.ledger_item_date.data
+    ledger_item.amount = Decimal(form.amount.data)
+
+
+def prefill_edit_ledger_item_form_values(form: CreateEditLedgerItemForm, ledger_item_id: int) -> None:
+    ledger_item: LedgerItem = LedgerItem.query.get_or_404(ledger_item_id)
+    form.ledger_item_id.data = ledger_item.ledger_item_id
+    form.ledger_item_type.data = ledger_item.ledger_item_type
+    form.category.data = ledger_item.category if ledger_item.category else ""
+    form.description.data = ledger_item.description
+    form.private_notes.data = ledger_item.private_notes
+    form.ledger_item_date.data = ledger_item.ledger_item_date

@@ -9,7 +9,9 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 from application.modules.accounts.clearance import ClearanceEnum
+from application.modules.finances.ledger.ledger_item_category_enum import LedgerItemCategoryEnum
 from application.modules.finances.ledger.ledger_item_type_enum import LedgerItemTypeEnum
+from application.utils.crud_enum import CrudEnum
 
 # from application.modules.accounts.clearance_enum import ClearanceEnum
 # from application.utils.crud_enum import CrudEnum
@@ -79,8 +81,9 @@ def create_app(config_class: type[Config] = Config) -> Flask:
             "environment": os.environ.get("ENVIRONMENT"),
             "rno_name": os.environ.get("RNO_NAME"),
             "ClearanceEnum": ClearanceEnum,
-            # "CrudEnum": CrudEnum,
+            "CrudEnum": CrudEnum,
             "LedgerItemTypeEnum": LedgerItemTypeEnum,
+            "LedgerItemCategoryEnum": LedgerItemCategoryEnum,
         }
 
     @app.before_request
