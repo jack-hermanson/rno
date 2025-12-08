@@ -67,9 +67,9 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     # from application.modules.schedule.routes import schedule
     # from application.modules.support.routes import support
     #
-    # from .modules.errors.handlers import errors
+    from .modules.errors.handlers import errors
 
-    for blueprint in [main, accounts, finances, contacts]:
+    for blueprint in [main, accounts, finances, contacts, errors]:
         app.register_blueprint(blueprint)
 
     # login manager
