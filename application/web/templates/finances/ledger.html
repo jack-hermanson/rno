@@ -10,10 +10,12 @@
 {% set title = "Ledger" %}
 
 {% block actions %}
-    <a href="{{ url_for('finances.create') }}" class="btn btn-sm btn-success">
-        <i class="fas fa-plus"></i>
-        Create Ledger Item
-    </a>
+    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.OFFICER %}
+        <a href="{{ url_for('finances.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i>
+            Create Ledger Item
+        </a>
+    {% endif %}
 {% endblock actions %}
 
 {% block body %}
