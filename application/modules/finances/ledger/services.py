@@ -110,6 +110,12 @@ def create_ledger_item(form: CreateEditLedgerItemForm) -> LedgerItem:
     return ledger_item
 
 
+def edit_ledger_item(form: CreateEditLedgerItemForm) -> None:
+    ledger_item = LedgerItem.query.filter(LedgerItem.ledger_item_id == form.ledger_item_id.data).one_or_404()
+    _set_ledger_item_from_form(form, ledger_item)
+    db.session.commit()
+
+
 def _set_ledger_item_from_form(form: CreateEditLedgerItemForm, ledger_item: LedgerItem) -> None:
     ledger_item.ledger_item_type = LedgerItemTypeEnum(form.ledger_item_type.data)
     ledger_item.category = LedgerItemCategoryEnum(form.category.data) if form.category.data else None
@@ -122,6 +128,7 @@ def _set_ledger_item_from_form(form: CreateEditLedgerItemForm, ledger_item: Ledg
 def prefill_edit_ledger_item_form_values(form: CreateEditLedgerItemForm, ledger_item_id: int) -> None:
     ledger_item: LedgerItem = LedgerItem.query.get_or_404(ledger_item_id)
     form.ledger_item_id.data = ledger_item.ledger_item_id
+    form.amount.data = ledger_item.amount
     form.ledger_item_type.data = ledger_item.ledger_item_type
     form.category.data = ledger_item.category if ledger_item.category else ""
     form.description.data = ledger_item.description

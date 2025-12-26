@@ -18,7 +18,7 @@
 
 
 
-{% set title = "Create Ledger Item" %}
+{% set title = ("Create" if mode == CrudEnum.CREATE else "Edit") + " Ledger Item" %}
 
 {% block body %}
     <form action="{{ request.url }}" method="POST">
