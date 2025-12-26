@@ -57,11 +57,11 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item"
-                                                   href="{{ url_for('finances.ledger', download='true', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Download
+                                                   href="{{ url_for('finances.ledger', download='true', csv='true', order_by=ledger_data.order_by, order=ledger_data.order, start=ledger_data.start, end=ledger_data.end) }}">Download
                                                 CSV</a></li>
                                             <li><a class="dropdown-item"
                                                    target="_blank"
-                                                   href="{{ url_for('finances.ledger', download='false', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Open
+                                                   href="{{ url_for('finances.ledger', download='false', csv='true', order_by=ledger_data.order_by, order=ledger_data.order, start=ledger_data.start, end=ledger_data.end) }}">Open
                                                 CSV in new tab</a></li>
                                         </ul>
                                     </div>
