@@ -8,7 +8,13 @@ from application import ClearanceEnum, CrudEnum
 from application.modules.accounts.requires_clearance import requires_clearance
 from application.modules.finances.dashboard.services import get_dashboard_data
 from application.modules.finances.ledger.forms import CreateEditLedgerItemForm
-from application.modules.finances.ledger.services import create_ledger_item, get_ledger, ledger_items_to_csv
+from application.modules.finances.ledger.services import (
+    create_ledger_item,
+    edit_ledger_item,
+    get_ledger,
+    ledger_items_to_csv,
+    prefill_edit_ledger_item_form_values,
+)
 from application.utils.date_time import LOCAL_TIMEZONE
 from logger import logger
 
@@ -25,19 +31,45 @@ def index() -> ResponseReturnValue:
 
 
 @finances.route("/ledger/create", methods=["GET", "POST"])
-@requires_clearance(ClearanceEnum.ADMIN)
+@requires_clearance(ClearanceEnum.OFFICER)
 def create() -> ResponseReturnValue:
     form = CreateEditLedgerItemForm()
     if form.validate_on_submit():
         create_ledger_item(form)
         flash("Ledger item created successfully.", "success")
         return redirect(url_for("finances.ledger"))
-    return render_template("finances/create-edit-ledger-item.html", mode=CrudEnum.CREATE, form=form)
+    return render_template(
+        "finances/create-edit-ledger-item.html",
+        mode=CrudEnum.CREATE,
+        form=form,
+    )
 
 
-@finances.route("/ledger/edit/:ledger_item_id", methods=["GET", "POST"])
+@finances.route("/ledger/edit/<int:ledger_item_id>", methods=["GET", "POST"])
+@requires_clearance(ClearanceEnum.OFFICER)
 def edit(ledger_item_id: int) -> ResponseReturnValue:
-    return render_template("finances/create-edit-ledger-item.html", ledger_item_id=ledger_item_id, mode=CrudEnum.EDIT)
+    form = CreateEditLedgerItemForm()
+    if form.validate_on_submit():
+        edit_ledger_item(form)
+        flash("Ledger item edited successfully.", "success")
+
+        # Parse out args to keep same filtering we started with on the index page so they're not like "uh where'd it go"
+        # unless they change the date then I can't help you.
+        start = request.args.get("start") or datetime.now(tz=LOCAL_TIMEZONE).date().replace(day=1)
+        end = request.args.get("end") or datetime.now(tz=LOCAL_TIMEZONE).date()
+        order = request.args.get("order") or "asc"
+        order_by = request.args.get("order_by") or "date"
+
+        return redirect(url_for("finances.ledger", start=start, end=end, order=order, order_by=order_by))
+    if request.method == "GET":
+        # first time, so prefill
+        prefill_edit_ledger_item_form_values(form, ledger_item_id)
+    return render_template(
+        "finances/create-edit-ledger-item.html",
+        ledger_item_id=ledger_item_id,
+        mode=CrudEnum.EDIT,
+        form=form,
+    )
 
 
 @finances.route("/ledger")

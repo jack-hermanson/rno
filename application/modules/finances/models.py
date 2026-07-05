@@ -45,6 +45,12 @@ class LedgerItem(db.Model):
         back_populates="ledger_item",
     )
 
+    def __str__(self) -> str:
+        return (
+            f"<LedgerItem: {self.ledger_item_id}, {self.ledger_item_type}, {self.ledger_item_date}, {self.amount}, "
+            f"{self.description}>"
+        )
+
 
 class LedgerItemAuditLogEntry(db.Model):
     __tablename__ = "ledger_item_audit_log_entry"

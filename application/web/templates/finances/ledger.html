@@ -10,10 +10,12 @@
 {% set title = "Ledger" %}
 
 {% block actions %}
-    <a href="{{ url_for('finances.create') }}" class="btn btn-sm btn-success">
-        <i class="fas fa-plus"></i>
-        Create Ledger Item
-    </a>
+    {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.OFFICER %}
+        <a href="{{ url_for('finances.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i>
+            Create Ledger Item
+        </a>
+    {% endif %}
 {% endblock actions %}
 
 {% block body %}
@@ -57,11 +59,11 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item"
-                                                   href="{{ url_for('finances.ledger', download='true', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Download
+                                                   href="{{ url_for('finances.ledger', download='true', csv='true', order_by=ledger_data.order_by, order=ledger_data.order, start=ledger_data.start, end=ledger_data.end) }}">Download
                                                 CSV</a></li>
                                             <li><a class="dropdown-item"
                                                    target="_blank"
-                                                   href="{{ url_for('finances.ledger', download='false', csv='true', order_by=ledger_data.order_by, order=ledger_data.order) }}">Open
+                                                   href="{{ url_for('finances.ledger', download='false', csv='true', order_by=ledger_data.order_by, order=ledger_data.order, start=ledger_data.start, end=ledger_data.end) }}">Open
                                                 CSV in new tab</a></li>
                                         </ul>
                                     </div>
@@ -123,7 +125,13 @@
                     {% for ledger_item in ledger_data.ledger_items %}
                         <tr>
                             <td>
-                                {{ "%03d"|format(ledger_item.ledger_item_id) }}
+                                {% if current_user.is_authenticated and current_user.clearance >= ClearanceEnum.OFFICER %}
+                                    <a href="{{ url_for('finances.edit', ledger_item_id=ledger_item.ledger_item_id, order_by=ledger_data.order_by, order=ledger_data.order, start=ledger_data.start, end=ledger_data.end) }}">
+                                        {{ "%03d"|format(ledger_item.ledger_item_id) }}
+                                    </a>
+                                {% else %}
+                                    {{ "%03d"|format(ledger_item.ledger_item_id) }}
+                                {% endif %}
                             </td>
                             <td>{{ ledger_item.ledger_item_date }}</td>
                             <td>

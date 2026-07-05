@@ -52,6 +52,6 @@ class CreateEditLedgerItemForm(FlaskForm):
         "Private Notes",
         validators=[Optional(), Length(min=0, max=255)],
         description="If there are more sensitive details that we do not want to show to the public (like names and "
-        "addresses), save them here",
+        "addresses), save them here.",
     )
     submit = SubmitField("Submit")
