@@ -58,6 +58,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     # routes and blueprints
     # from application.modules.about.routes import about
     from application.modules.accounts.routes import accounts  # noqa: PLC0415
+    from application.modules.bylaws.routes import bylaws  # noqa: PLC0415
     from application.modules.contacts.routes import contacts  # noqa: PLC0415
     from application.modules.finances.routes import finances  # noqa: PLC0415
     from application.modules.main.routes import main  # noqa: PLC0415
@@ -67,9 +68,9 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     # from application.modules.schedule.routes import schedule
     # from application.modules.support.routes import support
     #
-    from .modules.errors.handlers import errors
+    from .modules.errors.handlers import errors  # noqa: PLC0415
 
-    for blueprint in [main, accounts, finances, contacts, errors]:
+    for blueprint in [main, accounts, finances, contacts, errors, bylaws]:
         app.register_blueprint(blueprint)
 
     # login manager

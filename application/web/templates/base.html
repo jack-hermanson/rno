@@ -81,7 +81,7 @@
                         {{ nav_link(href="#", active=(active_route == "meetings"), icon="fa-people-roof", text="Meetings") }}
                         {{ nav_link(href=url_for('contacts.index'), active=(active_route == "contacts"), icon="fa-address-book", text="Contacts") }}
                         {{ nav_link(href="#", active=(active_route == "board"), icon="fa-users-between-lines", text="Board Members") }}
-                        {{ nav_link(href="#", active=(active_route == "bylaws"), icon="fa-scale-balanced", text="Bylaws") }}
+                        {{ nav_link(href=url_for('bylaws.index'), active=(active_route == "bylaws"), icon="fa-scale-balanced", text="Bylaws") }}
                         {{ nav_link(href="#", active=(active_route == "inventory"), icon="fa-box-open", text="Inventory") }}
                         {{ nav_link(href=url_for('finances.index'), active=(active_route == "finances"), icon="fa-file-invoice-dollar", text="Finances") }}
                         {{ nav_link(href="#", active=(active_route == "members"), icon="fa-house-circle-check", text="Members") }}
