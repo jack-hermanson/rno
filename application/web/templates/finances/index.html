@@ -59,6 +59,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Recent Audit Logs</h5>
+                    {% for audit_log in dashboard_data.recent_audit_log_entries %}
+                        <p>{{ audit_log.description }}</p>
+                    {% endfor %}
                 </div>
             </div>
         </div>

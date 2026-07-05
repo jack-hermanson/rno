@@ -16,7 +16,8 @@ class RecentTransactionViewModel:
 
 @dataclasses.dataclass
 class RecentLedgerItemAuditLogEntryViewModel:
-    pass
+    ledger_item_id: int
+    description: str
 
 
 @dataclasses.dataclass

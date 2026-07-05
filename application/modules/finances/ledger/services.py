@@ -1,3 +1,4 @@
+import copy
 import csv
 import io
 from datetime import date
@@ -12,7 +13,7 @@ from application.modules.finances.common.total_income_and_expense import get_tot
 from application.modules.finances.ledger.forms import CreateEditLedgerItemForm
 from application.modules.finances.ledger.ledger_item_category_enum import LedgerItemCategoryEnum
 from application.modules.finances.ledger.view_models import LedgerItemViewModel, LedgerViewModel
-from application.modules.finances.models import LedgerItem
+from application.modules.finances.models import LedgerItem, LedgerItemAuditLogEntry
 from logger import logger
 
 
@@ -102,17 +103,45 @@ def ledger_items_to_csv(ledger_items: list[LedgerItemViewModel]) -> str:
 
 
 def create_ledger_item(form: CreateEditLedgerItemForm) -> LedgerItem:
+    # Create the ledger item.
     ledger_item = LedgerItem()
     _set_ledger_item_from_form(form, ledger_item)
     ledger_item.account = current_user
     db.session.add(ledger_item)
     db.session.commit()
+
+    # Create the audit log entry.
+    log_entry = LedgerItemAuditLogEntry()
+    log_entry.ledger_item = ledger_item
+    log_entry.account = current_user
+    log_entry.description = f"{current_user.name}, {current_user.account_id} created ledger item {ledger_item}."
+
+    db.session.add(log_entry)
+    db.session.commit()
+
     return ledger_item
 
 
 def edit_ledger_item(form: CreateEditLedgerItemForm) -> None:
     ledger_item = LedgerItem.query.filter(LedgerItem.ledger_item_id == form.ledger_item_id.data).one_or_404()
+
+    # Make a copy of this so we can tell what it looked like before the change.
+    old_ledger_item = copy.deepcopy(ledger_item)
+
+    # Set the values on the ledger item that we want to save.
     _set_ledger_item_from_form(form, ledger_item)
+    db.session.commit()
+
+    # Create the audit log entry.
+    log_entry = LedgerItemAuditLogEntry()
+    log_entry.ledger_item = ledger_item
+    log_entry.account = current_user
+    log_entry.description = (
+        f"{current_user.name}, {current_user.account_id} edited ledger item {ledger_item}. Before:"
+        f" {old_ledger_item}. After: {ledger_item}."
+    )
+
+    db.session.add(log_entry)
     db.session.commit()
 
 
