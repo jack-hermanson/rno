@@ -23,7 +23,7 @@ def utcnow() -> datetime:
 
 
 def to_short_date_string(date_to_display: date) -> str:
-    return date_to_display.strftime("%a, %-m/%-d")
+    return date_to_display.strftime("%A, %-m/%-d/%Y")
 
 
 def to_short_time_string(date_time_to_display: datetime) -> str:
