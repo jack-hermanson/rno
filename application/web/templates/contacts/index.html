@@ -7,4 +7,44 @@
 
 {% block body %}
     <p>This is the contacts page.</p>
+    {% for contact in contacts_list %}
+        <div class="card {% if not loop.last %}mb-4{% endif %}">
+            <div class="card-header">
+                <h5 class="card-title mb-0">
+                    {{ contact.first_name }}
+                    {{ contact.last_name }}
+                </h5>
+            </div>
+            <div class="card-body">
+                <dl class="mb-0">
+                    {% if contact.company %}
+                        <dt>Organization/Company</dt>
+                        <dd class="{% if not (contact.notes or contact.email or contact.phone_number) %}mb-0{% endif %}">
+                            {{ contact.company }}
+                        </dd>
+                    {% endif %}
+                    {% if contact.phone_number %}
+                        <dt>Phone</dt>
+                        <dd class="{% if not (contact.notes or contact.email) %}mb-0{% endif %}">
+                            <a href="tel:{{ contact.phone_number }}">
+                                {{ contact.phone_number }}
+                            </a>
+                        </dd>
+                    {% endif %}
+                    {% if contact.email %}
+                        <dt>Email</dt>
+                        <dd class="{% if not contact.notes %}mb-0{% endif %}">
+                            <a href="mailto:{{ contact.email }}">
+                                {{ contact.email }}
+                            </a>
+                        </dd>
+                    {% endif %}
+                    {% if contact.notes %}
+                        <dt>Notes</dt>
+                        <dd class="mb-0">{{ contact.notes }}</dd>
+                    {% endif %}
+                </dl>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock body %}
